@@ -98,15 +98,20 @@ balance_table <- xBalance(treatment ~ liberal+republican+obama.disapprove+ride.e
 balance_xtable <- xtable(balance_table$results[,1:4,], 
                          label="Table 2. Covariate balance across treatment conditions", 
                          digits=2,
-                         align = "l|rrrr")
+                         align = "lrrrr")
 
-# Add user friendly names in the final table: TODO LATER
+# Adding user friendly names/labels in the final table 2
 rownames(balance_xtable) <- c("Liberal†", "Republican", "Obama disapprove", "Ride MBTA every day", "Voted 2010", "Romney voter", "Hispanic threat", "Age", "Residency year", "College", "Male", "Hispanic", "White", "Income")
 colnames(balance_xtable) <- c("Control", "Treatment", "Standard Difference", "Z Score")
 
+# ## Comments to be added to the footnotes of the xtable: ATTEMPTED TO BE AMENDED
+# comment <- list(pos = list(0), command = NULL)
+# comment$pos[[1]] <- c(nrow(balance_xtable))
+# comment$command  <- c("\\footnotesize {*Difference in standardized units.}")
+
 print(balance_xtable,
-      hline.after = c(0, nrow(balance_xtable)),
-      sanitize.text.function = function(x){x},
+      hline.after = c(0, nrow(balance_xtable + 2)),
+      #add.to.row = comment,
       floating = TRUE)
 ```
 
