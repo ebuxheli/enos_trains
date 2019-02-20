@@ -18,9 +18,11 @@ library(xtable)
 library(RItools)
 library(ri)
 library(RColorBrewer)
+library(gt)
 
 # eliminates junk output from xtable
-options(xtable.comment = FALSE)
+options(xtable.comment = FALSE,
+        scipen = 999)
 
 # Loading in the data using read_csv instead of read.csv
 pnas_data   <- read.csv("dataverse_files/pnas_data.csv")
@@ -446,8 +448,8 @@ max(final.mat.redact$N[final.mat.redact$subset=='no.car']),
 max(final.mat.redact$N[final.mat.redact$subset=='all']))
 
 h1 = c('',paste('(',1:3,')',sep = ''))
-h2 = c('','all respondents','waits on platform','all respondents')
-h3 = c('question','ATE (p)','CATE (p)','T1 levels (sd)')
+h2 = c('','all respondents','waits on platform','all respondents ')
+h3 = c('question','ATE (P)*','CATE (P)','T1 levels (SD)')
 hs = rbind(h1,h2,h3)
 row.names(hs) = NULL
 	
@@ -465,13 +467,24 @@ out.table <- xtable(table_1, digits = 3,
                     align = "lccc")
 
 # Adding user friendly names/labels in the final table 1
-colnames(out.table) <- c("All respondents", "Waits on platform", "All respondents")
+colnames(out.table) <- c('All respondents', 'Waits on platform', 'All respondents ')
 rownames(out.table) <- c("Question", "Number of immigrants be increased?†",
                        "Children of undocumented be allowed to stay?", "English as official language?", "n")
 
-print(out.table,
-      hline.after = c(0, nrow(out.table)),
-      floating = TRUE)
+# outputting gt table with comments
+gt(out.table, rownames_to_stub = TRUE) %>% 
+  tab_source_note(source_note = 'In the first "All respondents" column, ATE represents responses in T2-T1 
+                  for the treatment group compared with the control group for the entire experimental sample.
+                  Positive values mean a more politically conservative response. In the "Waits on platform"
+                  column, CATEs are the Conditional Average Treatment Effects for persons who said they stand
+                  on the platform, rather than wait in their cars. In the second "All Respondents" column, T1
+                  levels and SDs for each variable for all respondents. All variables scaled 0-1.') %>% 
+  tab_source_note(source_note = '* P values from a one-tailed test against the Null Hypothesis of no effect
+                  are in parentheses.') %>% 
+  tab_source_note(source_note = '† Each of the questions allowed responses on a five-point scale ranging from
+                  strongly agree to strongly disagree (exact answers were changed to be appropriate to the
+                  actual question)')
+  
 ```
 
 # Figure 2
@@ -551,7 +564,7 @@ for(i in 1:length(var.names)){
 \newpage
 
 # Table 2
-```{r, results='asis', cache = TRUE}
+```{r, results='asis'}
 ## Here I used the balance_check.r code and compared the balance_table.tex output to the 
 ## original article to ensure that the results were replicated. Here, I am just putting it
 ## all together in a code chunk. I maintained the majority of their variable names and here
@@ -567,22 +580,25 @@ balance_table <- xBalance(treatment ~ liberal+republican+obama.disapprove+ride.e
 ## Outputs the results for Table 2 in the replication document. 
 balance_xtable <- xtable(balance_table$results[,1:4,], 
                          label="Table 2. Covariate balance across treatment conditions", 
-                         digits=2,
+                         digits= 2,
                          align = "lrrrr")
 
 # Adding user friendly names/labels in the final table 2
 rownames(balance_xtable) <- c("Liberal†", "Republican", "Obama disapprove", "Ride MBTA every day", "Voted 2010", "Romney voter", "Hispanic threat", "Age", "Residency year", "College", "Male", "Hispanic", "White", "Income")
-colnames(balance_xtable) <- c("Control", "Treatment", "Standard Difference", "Z Score")
+colnames(balance_xtable) <- c("Control", "Treatment", "Standard Difference*", "Z Score")
 
-# ## Comments to be added to the footnotes of the xtable: ATTEMPTED TO BE AMENDED
-# comment <- list(pos = list(0), command = NULL)
-# comment$pos[[1]] <- c(nrow(balance_xtable))
-# comment$command  <- c("\\footnotesize {*Difference in standardized units.}")
+# print(balance_xtable,
+#       hline.after = c(0, nrow(balance_xtable)),
+#       floating = TRUE)
 
-print(balance_xtable,
-      hline.after = c(0, nrow(balance_xtable)),
-      #add.to.row = comment,
-      floating = TRUE)
+gt(balance_xtable, rownames_to_stub = TRUE) %>% 
+  tab_source_note(source_note = '* Difference in standardized units.') %>% 
+  tab_source_note(source_note = '† Mean response values for pretreatment variables accounting for
+                  stratification into train stations. All variables are 0 and 1 variables, except 
+                  for Hispanic threat, which is a seven-point scale indicating how threatening respondents
+                  find Hispanics, recoded 0–1; residency, which is measured in years; and income, which is
+                  annual income in dollars.') %>% 
+  fmt_number(columns = everything(), decimals = 2)
 ```
 
 
