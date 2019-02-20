@@ -11,13 +11,12 @@ output:
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 # attaching libraries
-library(RItools)
 library(dplyr)
 library(janitor)
 library(tidyverse)
-library(knitr)
-library(gt)
 library(xtable)
+library(RItools)
+library(ri)
 
 # eliminates junk output from xtable
 options(xtable.comment = FALSE)
