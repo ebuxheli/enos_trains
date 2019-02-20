@@ -39,20 +39,17 @@
  out.mat = rbind(out.mat,Ns)
  
  out.mat = rbind(hs,out.mat)
- 
- out.table = xtable(out.mat, digits = 3
-	)
+ out.table = xtable(out.mat, digits = 3)
+ # Creates the output for Table 1
  print(out.table,file = 'cum_results_wide.tex',
 	 floating = FALSE,
 	 include.rownames = FALSE,
 	 include.colnames = FALSE)
 
-
  ##prime results
  out.mat.p = final.mat.redact[final.mat.redact$subset == 'all.prime'&final.mat.redact$variable %in% output.vars,c('ate.new')]
  Ns = c('N',max(final.mat.redact$N[final.mat.redact$subset=='all.prime']),
-	max(final.mat.redact$N[final.mat.redact$subset=='all'])
-	)
+	max(final.mat.redact$N[final.mat.redact$subset=='all']))
 
  h1 = c('',paste('(',1:2,')',sep = ''))
  h2 = c('','prime experiment','all respondents')
@@ -64,9 +61,8 @@
  out.mat = cbind(var.names,out.mat)
  out.mat = rbind(out.mat,Ns)
  out.mat = rbind(hs,out.mat)
- out.table = xtable(out.mat, digits = 3
-	)
- print(out.table,file = 'prime_results_wide.tex',
-	 floating = FALSE,
-	 include.rownames = FALSE,
-	 include.colnames = FALSE)
+#  out.table = xtable(out.mat, digits = 3)
+#  print(out.table,file = 'prime_results_wide.tex',
+# 	 floating = FALSE,
+# 	 include.rownames = FALSE,
+# 	 include.colnames = FALSE)

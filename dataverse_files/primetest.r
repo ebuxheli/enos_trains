@@ -2,30 +2,26 @@
 ###use randomization inference to look for changes in responses induced by experiment in subsets by covariates.
 ####RdE September 2012
 
-
 #####recodes
 ####race variable
-dat.all.prime$non.white = ifelse(dat.all.prime$race_4 == 1, 1,0)
-dat.all.prime$non.white[is.na(dat.all.prime$non.white)==T] = 0
-
-
-dat.all.prime$residency.new[dat.all.prime$residency == 1] = 1
-dat.all.prime$residency.new[dat.all.prime$residency == 2] = 3.5
-dat.all.prime$residency.new[dat.all.prime$residency == 3] = 7.5
-dat.all.prime$residency.new[dat.all.prime$residency == 4] = 12.5
-dat.all.prime$residency.new[dat.all.prime$residency == 5] = mean(dat.all.prime$age, na.rm = T)-15
-dat.all.prime$residency.new[dat.all.prime$residency == 6] = mean(dat.all.prime$age, na.rm = T)
+prime_data$non.white = ifelse(prime_data$race_4 == 1, 1,0)
+prime_data$non.white[is.na(prime_data$non.white)==T] = 0
+prime_data$residency.new[prime_data$residency == 1] = 1
+prime_data$residency.new[prime_data$residency == 2] = 3.5
+prime_data$residency.new[prime_data$residency == 3] = 7.5
+prime_data$residency.new[prime_data$residency == 4] = 12.5
+prime_data$residency.new[prime_data$residency == 5] = mean(prime_data$age, na.rm = T)-15
+prime_data$residency.new[prime_data$residency == 6] = mean(prime_data$age, na.rm = T)
 
 #####recodes
 ###English language is reverse coded from other variables:
-dat.all.prime$Englishlan.x = recode(dat.all.prime$Englishlan.x, "5=1; 4=2; 3=3; 2=4; 1=5")
-dat.all.prime$Englishlan.y = recode(dat.all.prime$Englishlan.y, "5=1; 4=2; 2=4; 1=5")
-
+prime_data$Englishlan.x = recode(prime_data$Englishlan.x, 
+                                 "5" = "1", "4" = "2", "2" = "4", "1" = "5")
+prime_data$Englishlan.y = recode(prime_data$Englishlan.y, 
+                                 "5" = "1", "4" = "2", "2" = "4", "1" = "5")
 
 ###gender recode
-dat.all.prime$male = ifelse(dat.all.prime$gender == 1, 1, 0)
-
-
+prime_data$male = ifelse(prime_data$gender == 1, 1, 0)
 
 ###inference
 repeats = c("numberim","Remain","Englishlan")
@@ -34,17 +30,12 @@ x.names = paste(repeats,".x",sep="")
 y.names = paste(repeats,".y",sep="")
 
 covariates = c('line')
-
 final.mat = matrix(nrow = 0, ncol = 8)
-
 subsets = c('all.prime')
-
-cat('beginning inference \n')
 
 for(subset in subsets){ ##b.only, complier, and non-compler subsets
 	out.mat = matrix(nrow = length(repeats), ncol = 8)
-	
-	dat.subset = dat.all.prime
+	dat.subset = prime_data
 		
 	z.variable = 'treatment'
 	
@@ -82,9 +73,7 @@ for(subset in subsets){ ##b.only, complier, and non-compler subsets
 		}
 	final.mat = as.data.frame(final.mat)
 	colnames(final.mat) = c('variable','subset','N','ate','greater.p.value','lesser.p.value','x.sd','x.mean')
-	print(final.mat)
 	
-
 	final.mat.prime = final.mat ##mat for creating output later
 
 
