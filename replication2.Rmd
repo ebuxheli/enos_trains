@@ -21,8 +21,7 @@ library(RColorBrewer)
 library(gt)
 
 # eliminates junk output from xtable
-options(xtable.comment = FALSE,
-        scipen = 999)
+options(xtable.comment = FALSE)
 
 # Loading in the data using read_csv instead of read.csv
 pnas_data   <- read.csv("dataverse_files/pnas_data.csv")
