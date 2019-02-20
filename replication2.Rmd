@@ -456,18 +456,17 @@ out.mat = cbind(var.names,out.mat)
 out.mat = rbind(out.mat,Ns)
 out.mat = rbind(hs,out.mat)
 
-balance_xtable <- xtable(balance_table$results[,1:4,], 
-                         label="Table 2. Covariate balance across treatment conditions", 
-                         digits=2,
-                         align = "lrrrr")
-
 # Replication for table 1
-table_1 <- out.mat[3:nrow(out.mat),1:ncol(out.mat)]
-out.table <- xtable(table_1, digits = 3)
+# cols <- c(2:nrow(out.mat))
+
+table_1 <- as_tibble(out.mat[,2:ncol(out.mat)])
+table_1 <- row_to_names(table_1, 2)
+out.table <- xtable(table_1, digits = 3,
+                    align = "lccc")
 
 # Adding user friendly names/labels in the final table 1
-colnames(out.table) <- c("Question", "All respondents", "Waits on platform", "All respondents")
-rownames(out.table) <- c("Question", "Number of immigrants be increased?†", 
+colnames(out.table) <- c("All respondents", "Waits on platform", "All respondents")
+rownames(out.table) <- c("Question", "Number of immigrants be increased?†",
                        "Children of undocumented be allowed to stay?", "English as official language?", "n")
 
 print(out.table,
