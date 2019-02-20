@@ -89,7 +89,7 @@ white_data  <- read_csv("dataverse_files/white_face_data.csv")
 ## some of the other analyses that Enos had run which was not necessary for performing the 
 ## replication. The xBalance function is used to calculate the standardized mean differences 
 ## from each covariate.
-balance_table <- xBalance(treatment ~ liberal+republican+obama.disapprove+ride.everyday+voted.2010+romney.voter+Hispanics.x+age+residency.new+hispanic.new+college+income.new+male+white, 
+balance_table <- xBalance(treatment ~ liberal+republican+obama.disapprove+ride.everyday+voted.2010+romney.voter+Hispanics.x+age+residency.new+college+male+hispanic.new+white+income.new, 
                             data = pnas_data, 
                             report = c("std.diffs","z.scores","adj.means","chisquare.test"), 
                             strata = factor(pnas_data$station))
@@ -102,7 +102,7 @@ balance_xtable <- xtable(balance_table,
                          col.labels= c("Control", "Treatment", "Standard Difference", "Z Score"))
 
 # Add user friendly names in the final table: TODO LATER
-# rownames(balance_xtable) <- c("Liberal†", "Republican", "Obama disapprove", "Ride MBTA every day", "Voted 2010", "Romney voter", "Hispanic threat", "Age", "Residency year", "College", "Male", "Hispanic", "White", "Income")
+rownames(balance_xtable) <- c("Liberal†", "Republican", "Obama disapprove", "Ride MBTA every day", "Voted 2010", "Romney voter", "Hispanic threat", "Age", "Residency year", "College", "Male", "Hispanic", "White", "Income")
 
 print(balance_xtable,
       hline.after = c(0, nrow(balance_xtable)),
