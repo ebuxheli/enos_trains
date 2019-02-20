@@ -27,10 +27,11 @@ white.dat = read.csv('dataverse_files/white_face_data.csv')
 
 
 ##the following scripts will be executed
-source('dataverse_files/balance_check.r') ##executes balance tests
+#dose_combined.pdf: figure 2
+source('dataverse_files/balance_check.r') ##executes balance tests: DONE, table 2
 source('dataverse_files/main_results.r')  ##produces ATE and car subanalysis
 source('dataverse_files/subset_inference.r')  ##produces dose effect and subgroup effects in supporting material
 source('dataverse_files/primetest.r') ##produces prime test in supporting material
-source('dataverse_files/output_create.r')  ##creates tables
+source('dataverse_files/output_create.r')  ##creates tables: table 1
 source('dataverse_files/outgraphic_single_pnas.r') ##produces graphics, expect face graphic
 source('dataverse_files/face_summary_pnas.r') ##creates face graphic
