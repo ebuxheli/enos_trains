@@ -597,23 +597,30 @@ gt(balance_xtable, rownames_to_stub = TRUE) %>%
 # Extensions
 ## Table 2 - Presented Visually
 ```{r}
-plot(balance_table, xlab = "Standardized Differences",
-     variable.labels = c(statistic = "std.diff",
-                         liberal = "Liberal",
-                         republican = "Republican",
-                         obama.disapprove = "Obama disapprove",
-                         ride.everyday = "Ride MBTA every day",
-                         voted.2010 = "Vote 2010",
-                         romney.voter = "Romney voter",
-                         Hispanics.x = "Hispanic threat",
-                         age = "Age",
-                         residency.new = "Residency year",
-                         college = "College",
-                         male = "Male",
-                         hispanic.new = "Hispanic",
-                         white = "White",
-                         income.new = "Income"))
+x <- as.data.frame(RItools:::prepareXbalForPlot(balance_table))
+rownames(x) <- c("Liberal", "Republican", "Obama disapprove", "Ride MBTA every day", "Voted 2010", "Romney voter", "Hispanic threat", "Age", "Residency year", "College", "Male", "Hispanic", "White", "Income")
+x <- rownames_to_column(x)
+
+ggplot(x, aes(x = strat, y = rowname)) +
+  geom_point() + 
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(title = "Standard Difference across Treatment Conditions",
+       x = "Standard Difference",
+       y = "Treatment Condition") +
+  theme_classic()
+  
 ```
+
+\newpage
+\newpage
+# References
+(1) Enos, Ryan D. 2014. “Causal Effect of Intergroup Contact on Exclusionary Attitudes.” Proceedings of the National
+    Academy of Sciences 111 (10). National Acad Sciences.
+
+(2) Enos, Ryan, 2017. "Replication Data for: The Causal Effect of Intergroup Contact on Exclusionary  \newline
+    Attitudes", https://doi.org/10.7910/DVN/DOP4UB, Harvard Dataverse, V1, \newline 
+    UNF:6:xkxAAeLJ6AIYRu1C+C1FSQ== [fileUNF]
+
 
 
 
