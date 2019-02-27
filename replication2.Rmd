@@ -27,9 +27,6 @@ options(xtable.comment = FALSE)
 pnas_data   <- read.csv("dataverse_files/pnas_data.csv")
 t1_data     <- read.csv("dataverse_files/t1_data.csv")
 prime_data  <- read.csv("dataverse_files/prime_data.csv")
-confed_data <- read.csv("dataverse_files/confederate_face_data.csv")
-hisp_data   <- read.csv("dataverse_files/hispanic_face_data.csv")
-white_data  <- read.csv("dataverse_files/white_face_data.csv")
 ```
 
 ```{r hidden_mainresults, include = FALSE}
@@ -422,7 +419,6 @@ for(subset in subsets){ ##b.only, complier, and non-compler subsets
 # Table 1
 ```{r, results='asis'}
 #output_create.r [ORIGINALLY]
-
 ####create output
 output.vars = c('numberim','Remain','Englishlan')
 var.names = c('Number of immigrants be increased?',
