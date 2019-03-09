@@ -24,6 +24,8 @@ library(ggplot2)
 # eliminates junk output from xtable
 options(xtable.comment = FALSE)
 
+# don't forget the abstract moving forward
+
 # Loading in the data using read.csv as read_csv presented problems
 # when trying to use the data. Still have not found out what the reason
 # for this problem is.
@@ -40,6 +42,7 @@ prime_data  <- read.csv("dataverse_files/prime_data.csv")
 
 # Here are the questions that were asked where x is the control and
 # y is the treatment
+# x is time period 1 and y is time period two, those who are treated are indicated by the treatment variable
 repeats = c("numberim","Remain","Englishlan")
 x.names = paste(repeats,".x",sep="")
 y.names = paste(repeats,".y",sep="")
@@ -100,6 +103,9 @@ for(subset in subsets){
 		}
 	final.mat = rbind(final.mat,out.mat)
 	}
+	
+	# a bit more comments either from what you learned in class or before may
+	# be helpful for both you and me
 
 final.mat = as.data.frame(final.mat)
 colnames(final.mat) = c('variable','subset','N','ate','greater.p.value','lesser.p.value','x.sd','x.mean')
@@ -267,6 +273,8 @@ gt(out.table, rownames_to_stub = TRUE) %>%
   tab_source_note(source_note = '† Each of the questions allowed responses on a five-point scale ranging from
                   strongly agree to strongly disagree (exact answers were changed to be appropriate to the
                   actual question)')
+		  
+		  # really nice looking table 1
   
 ```
 
@@ -344,6 +352,7 @@ for(i in 1:length(var.names)){
 		col = colors[2])
 }
 ```
+Good looking figure 2
 
 \newpage
 
@@ -356,6 +365,7 @@ for(i in 1:length(var.names)){
 ## some of the other analyses that Enos had run which was not necessary for performing the 
 ## replication. The xBalance function is used to calculate the standardized mean differences 
 ## from each covariate.
+# great commenting
 balance_table <- xBalance(treatment ~ liberal+republican+obama.disapprove+ride.everyday+voted.2010+romney.voter+Hispanics.x+age+residency.new+college+male+hispanic.new+white+income.new, 
                             data = pnas_data, 
                             report = c("std.diffs","z.scores","adj.means","chisquare.test")[1:3], 
@@ -400,8 +410,13 @@ ggplot(x, aes(x = strat, y = rowname)) +
   theme_classic()
 ```
 
+Great extension! This is a nice visual presentation of balance similar to one from Gelman. For future extensions I would recommend talking a little about your extension. Why did you choose to do what you did? What does it show? What are the advantages/disadvantages of this method over the one's used by the author? How does it help you or the reader better understand the results presented in the original paper? The extension is your opportunity to show us what you've learned in the class and how to apply it, so tell us what you're thinking.
+
+
+
 \newpage
 \newpage
+Love to see references
 # References
 (1) Enos, Ryan D. 2014. “Causal Effect of Intergroup Contact on Exclusionary Attitudes.” Proceedings of the National
     Academy of Sciences 111 (10). National Acad Sciences.
